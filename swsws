@@ -1,0 +1,54 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('countries of the world.csv')
+df.info()
+
+def to_float(val):
+    return float(str(val).replace(',', '.'))
+
+#переклад всіх стовпчиків:
+# 0 - країна
+# 1 - регіон
+# 2 - населення
+# 3 - площа
+# 4 - густота населення
+# 5 - співвідношення прибережної зони до площі
+# 6 - сальдо міграції (різниця людей які прибули від тих які виїхали)
+# 7 - дитяча смертність
+# 8 - ввп
+# 9 - рівень грамотності
+# 10 - кількість телефонів
+# 11 - орна ділянка (рілля)
+# 12 - сільськогосподарська ділянка
+# 13 - все інше
+# 14 - клімат
+# 15 - народжуваність
+# 16 - сметрність
+# 17 - аграрне виробництво
+# 18 - економіка (індустрія, бізнес)
+# 19 - обслуговування населення в різних сферах
+
+
+
+to_change = ['Pop. Density (per sq. mi.)', 'Coastline (coast/area ratio)',
+       'Net migration', 'Infant mortality (per 1000 births)',
+       'Literacy (%)', 'Phones (per 1000)', 'Arable (%)',
+       'Crops (%)', 'Other (%)', 'Birthrate', 'Deathrate',
+       'Agriculture', 'Industry', 'Service', 'Climate']
+
+for val in to_change:
+    df[val] = df[val].apply(to_float)
+
+df.dropna(inplace=True)
+df.info()
+
+# df=df.sort_values(by='Birthrate',ascending=False)
+
+d1 = df.plot(x = "GDP ($ per capita)",y = "Literacy (%)", kind = 'scatter')
+# df[df["GDP ($ per capita)"] == df["GDP ($ per capita)"]]["Literacy (%)"].plot(kind = 'hist')
+plt.show()
+
+d2 = df.plot(x = 'Birthrate', y = 'Deathrate', kind = 'hist')
+d3 = df.plot(x = 'Deathrate', y = 'Birthrate', kind = 'hist')
+plt.show()
